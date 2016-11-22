@@ -9,10 +9,11 @@ function [ E ] = approximationError( pt , pt_, dt, tend )
         E = sqrt( dt/tend ) * norm(pt_-pt);
     else
         step = (size(pt)-1)/(size(pt_)-1 );
-        for i = 1:size(pt_)
-            pt_(i) = pt_(i) - pt(i*step);
+        pt_e = 1:size(pt_);
+        for i = pt_e
+            pt_e(i) = pt_(i) - pt(i*step);
         end
-        E = sqrt( dt/tend ) * norm(pt_);
+        E = sqrt( dt/tend ) * norm(pt_e);
     end
     
 end

@@ -66,12 +66,13 @@ for i = iterations:-1:1
     % calculate the iterative solution with Runge Kutta metho
     pt_rk{i} = rungeKuttaMethod(@p_ , dt, p0, steps);
 
-    %adding text for the privios figure because next step size solution is
-    %needed
+    % adding text for the privios figure because next step size solution is
+    % needed
     if(i < 4)
-        text( -2 , 10  , strcat('error red.:', num2str( E_e(i)/E_e(i+1))));
-        text( -2 , 8  , strcat('error red.:', num2str( E_h(i)/E_h(i+1))));
-        text( -2 , 6  , strcat('error red.:', num2str( E_rk(i)/E_rk(i+1))));
+        % calculation the error reduction from getting smaler steps
+        text( -2 , 10 , strcat('error red.:', num2str( E_e(i)  / E_e(i+1))));
+        text( -2 , 8  , strcat('error red.:', num2str( E_h(i)  / E_h(i+1))));
+        text( -2 , 6  , strcat('error red.:', num2str( E_rk(i) / E_rk(i+1))));
     end
     
     %creating plots for each time step size  
@@ -138,12 +139,3 @@ for i = iterations:-1:1
     text( -3 ,  -2  , num2str( approximationError(  pt_rk{4} , pt_rk{i}, dt, tend)));
     
 end 
-
-%for i = 1:iterations 
-    
-
-
-%end 
-
-
-
