@@ -11,7 +11,10 @@ function [ pt ] = methodOfHeun( p_ , dt, p0, steps)
     for s = 1:steps
         %calculation the next step whit an explicitEulerStep and another
         %evaluation of p_()
-        pn1 = pn + dt * p_(  explicitEulerStep(p_, dt/2, pn) );
+        k1 = p_(  pn  );
+        k2 = p_(  pn + 0.5 * dt * k1 ) ;
+        
+        pn1 = pn + 0.5 * dt * ( k1 + k2 );
         % adding the new ponit to the solution vector 
         pt = [pt pn1];
         % setting the p_{n+1} valut to p_n to start the iteration from
