@@ -4,7 +4,17 @@ function [ E ] = approximationError( pt , pt_, dt, tend )
 %   the euclidean norm to claculate the error and multiplys it with the 
 %   proportion of timestep to the time interval in our case equal to tend
 %   as we are starting on t0 = 0
-    E = sqrt( dt/tend ) * norm(pt_-pt);
+    
+    if(size(pt_) == size(pt))
+        E = sqrt( dt/tend ) * norm(pt_-pt);
+    else
+        step = (size(pt)-1)/(size(pt_)-1 );
+        for i = 1:size(pt_)
+            pt_(i) = pt_(i) - pt(i*step);
+        end
+        E = sqrt( dt/tend ) * norm(pt_);
+    end
+    
 
 end
 
