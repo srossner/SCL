@@ -12,17 +12,17 @@ function [ pt ] = rungeKuttaMethod( p_ , dt, p0, steps)
        
         %calculation four points to get the solution using four evaluation
         %of p_() 
-        k1 = dt * p_(  pn  );
+        k1 = p_(  pn  );
         
-        k2 = dt * p_(  pn + ( 0.5* k1 ) ) ;
+        k2 = p_(  pn + 0.5 * dt * k1 ) ;
         
-        k3 = dt * p_(  pn + ( 0.5* k2 ) ) ;
+        k3 = p_(  pn + 0.5 * dt * k2 ) ;
         
-        k4 = dt * p_(  pn + k3 );
+        k4 = p_(  pn + dt * k3 );
 
         %summing the four point up and using the middle wonse twice gives 6
         %ponis normalize it back with 1/6 for calculation of the next point
-        pn1 = pn + ( 1/6 * ( k1 + 2*k2 + 2*k3 + k4) );
+        pn1 = pn + 1/6 * dt * ( k1 + 2 * k2 + 2 * k3 + k4 );
         
         % adding the new ponit to the solution vector 
         pt = [pt pn1];

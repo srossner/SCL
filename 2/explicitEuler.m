@@ -10,7 +10,9 @@ function [ pt ] = explicitEuler( p_, dt, p0, steps)
     % iterating for the numbers of steps 
     for s = 1:steps
         % culating p_{n+1}
-        pn1 =  explicitEulerStep( p_, dt, pn);
+        k1 = p_(  pn  );
+        
+        pn1 = pn + dt * k1;
         % adding the new ponit to the solution vector 
         pt = [pt pn1];
         % setting the p_{n+1} valut to p_n to start the iteration from
