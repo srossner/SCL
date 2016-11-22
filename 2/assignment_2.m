@@ -66,6 +66,14 @@ for i = iterations:-1:1
     % calculate the iterative solution with Runge Kutta metho
     pt_rk{i} = rungeKuttaMethod(@p_ , dt, p0, steps);
     
+    %adding text for the privios figure because next step size solution is
+    %needed
+    if(i < 4)
+        text( -2 , 10  , strcat('error red.:', num2str( E_e(i)/E_e(i+1))));
+        text( -2 , 8  , strcat('error red.:', num2str( E_h(i)/E_h(i+1))));
+        text( -2 , 6  , strcat('error red.:', num2str( E_rk(i)/E_rk(i+1))));
+    end
+    
     %creating plots for each time step size  
     % best display on 1920/1080 pixel window sice 
     my_Plot(i) = figure;
@@ -105,26 +113,19 @@ for i = iterations:-1:1
     % error from Analytical solution to explicit Euler solution
     text( -4 , 10  , 'E_{Euler}:');
     text( -3 , 10  , num2str( E_e(i)  ));
-    if(i < 4)
-        text( -2 , 10  , strcat('error red.:', num2str( E_e(i)/E_e(i+1))));
-    end
+
     % error from Analytical solution to method of Heun solution
     text( -4 ,  8  , 'E_{Heun}:'  ); 
     text( -3 ,  8  , num2str( E_h(i) ));
-    if(i < 4)
-        text( -2 , 8  , strcat('error red.:', num2str( E_h(i)/E_h(i+1))));
-    end
+
     % error from Analytical solution to Runge Kutta metho solution
     text( -4 ,  6   , 'E_{RungeK}: ');
     text( -3 ,  6   , num2str( E_rk(i) ));
-    if(i < 4)
-        text( -2 , 6  , strcat('error red.:', num2str( E_rk(i)/E_rk(i+1))));
-    end
+
     % display the time step size 
     text( -4 ,  4  , 'dt: ' );
     text( -3 ,  4   , num2str(dt));
-    
-    
+
     % Aproximated error on best solution with smalest time step 
     % Aproximated error explicit Euler solution
     text( -4 ,  2  , 'E^~_{Euler}:'  ); 
