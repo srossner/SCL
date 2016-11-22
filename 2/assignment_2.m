@@ -40,7 +40,7 @@ my_Plot =  1:iterations;
 % this is creatig 4 Grapfs 
 for i = iterations:-1:1
     
-    % difine time steps 1, 0.5, 0.25 , 0.125
+    % difine time steps  0.125, 0.25 , 0.5, 1
     dt = dtin / power(2, i-1);
 
     % define array for analitical solution 
@@ -66,6 +66,11 @@ for i = iterations:-1:1
     % calculate the iterative solution with Runge Kutta metho
     pt_rk{i} = rungeKuttaMethod(@p_ , dt, p0, steps);
 
+    % calculationg the error
+    E_e(i)  = approximationError(  pt , pt_e{i} , dt, tend);
+    E_h(i)  = approximationError(  pt , pt_h{i} , dt, tend);
+    E_rk(i) = approximationError(  pt , pt_rk{i}, dt, tend);
+    
     % adding text for the privios figure because next step size solution is
     % needed
     if(i < 4)
@@ -105,10 +110,7 @@ for i = iterations:-1:1
     %set lable for the plots 
     legend('p(t)', 'dp(t)','explicit Euler', 'method Of Heun' ,'Runge-Kutta Method')
     
-    % calculationg the error
-    E_e(i)  = approximationError(  pt , pt_e{i} , dt, tend);
-    E_h(i)  = approximationError(  pt , pt_h{i} , dt, tend);
-    E_rk(i) = approximationError(  pt , pt_rk{i}, dt, tend);
+
 
     % unsing text filds in the second quadrant for display of the error 
     % error from Analytical solution to explicit Euler solution
