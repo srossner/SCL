@@ -15,7 +15,7 @@ function [ pt ] = methodOfHeun(p_, p0, dt, tend)
         %calculation the next step with an explicitEulerStep and another
         %evaluation of p_()
         k1 = p_(  pn  );
-        k2 = p_(  pn + 0.5 * dt * k1 ) ;
+        k2 = p_(  pn + dt * k1 ) ;
         
         pn1 = pn + 0.5 * dt * ( k1 + k2 );
         % adding the new point to the solution vector 
