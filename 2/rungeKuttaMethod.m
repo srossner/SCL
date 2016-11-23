@@ -1,8 +1,11 @@
-function [ pt ] = rungeKuttaMethod( p_ , dt, p0, steps)
+function [ pt ] = rungeKuttaMethod(p_, p0, dt, tend)
 %UNTITLED Calculation the next step of an ordinary differential equatio with
 %Runge Kutta method
 
-% setting up the first value of the solution as the start point 
+    %calculate steps for iterative solutions
+    steps = tend/dt;
+
+    % setting up the first value of the solution as the start point 
     pn = p0;
     % set the firs pont as p_n
     pt = p0;

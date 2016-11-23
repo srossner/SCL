@@ -1,6 +1,9 @@
-function [ pt ] = explicitEuler( p_, dt, p0, steps)
+function [ pt ] = explicitEuler( p_, p0, dt, tend)
 %UNTITLED Calculation the solution of an ordinary differential equation with
 %explicit Euler
+
+    %calculate steps for iterative solutions
+    steps = tend/dt;
 
     % setting up the first value of the solution as the start point 
     pn = p0;

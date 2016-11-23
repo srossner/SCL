@@ -46,9 +46,6 @@ for i = iterations:-1:1
 
     % define array for analytical solution 
     t = t0:dt:tend;
-    
-    %calculate steps for iterative solutions
-    steps = (tend)/dt;
 
     % calculate analytical solution (pt) for all points 
     pt =  p(t);
@@ -59,18 +56,18 @@ for i = iterations:-1:1
     
     % using @p_ as lambda expressions for calculating the solution
     % calculate the iterative solution with explicit Euler
-    pt_e{i} = explicitEuler(@p_, dt, p0, steps);
+    pt_e{i} = explicitEuler(@p_, p0, dt, tend);
     
     % calculate the iterative solution with method of Heun
-    pt_h{i} = methodOfHeun(@p_ , dt, p0, steps);
+    pt_h{i} = methodOfHeun(@p_, p0, dt, tend);
     
     % calculate the iterative solution with Runge Kutta metho
-    pt_rk{i} = rungeKuttaMethod(@p_ , dt, p0, steps);
+    pt_rk{i} = rungeKuttaMethod(@p_, p0, dt, tend);
 
     % calculating the error
-    E_e(i)  = approximationError(  pt , pt_e{i} , dt, tend);
-    E_h(i)  = approximationError(  pt , pt_h{i} , dt, tend);
-    E_rk(i) = approximationError(  pt , pt_rk{i}, dt, tend);
+    E_e(i)  = approximationError( pt , pt_e{i} , dt, tend);
+    E_h(i)  = approximationError( pt , pt_h{i} , dt, tend);
+    E_rk(i) = approximationError( pt , pt_rk{i}, dt, tend);
     
     % adding text for the previous figure because next step size solution is
     % needed

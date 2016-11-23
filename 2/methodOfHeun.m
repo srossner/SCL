@@ -1,7 +1,10 @@
-function [ pt ] = methodOfHeun( p_ , dt, p0, steps)
+function [ pt ] = methodOfHeun(p_, p0, dt, tend)
 %UNTITLED Calculation the next step of an ordinary differential equation with
 %method of Heun
-
+    
+    %calculate steps for iterative solutions
+    steps = tend/dt;
+    
     % setting up the first value of the solution as the start point 
     pn = p0;
     % set the first point as p_n
