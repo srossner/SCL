@@ -1,5 +1,5 @@
 function [ pt ] = explicitEuler( p_, dt, p0, steps)
-%UNTITLED Calculation the solution of an ordinary differential equatio with
+%UNTITLED Calculation the solution of an ordinary differential equation with
 %explicit Euler
 
     % setting up the first value of the solution as the start point 

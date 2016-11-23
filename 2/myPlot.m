@@ -1,8 +1,9 @@
+function myPlot()
 close all; %to close all plots 
 clear all;
 clc;
 
-% Time intervall from -12 to 15 with 0.01 as step sice for the plot 
+% Time interval from -12 to 15 with 0.01 as step size for the plot 
 t = -12:0.01:15;
 
 my_Plot = figure; 
@@ -20,3 +21,4 @@ legend('p(t)')
 
 %set title of the plot
 title('Graph of analytical solution for the ordinary differential equation');
+end

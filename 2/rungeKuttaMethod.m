@@ -20,14 +20,14 @@ function [ pt ] = rungeKuttaMethod( p_ , dt, p0, steps)
         
         k4 = p_(  pn + dt * k3 );
 
-        %summing the four point up and using the middle wonse twice gives 6
-        %ponis normalize it back with 1/6 for calculation of the next point
+        %summing the four points and using the middle ones twice gives 6
+        %points, normalize it back with 1/6 for calculation of the next point
         pn1 = pn + 1/6 * dt * ( k1 + 2 * k2 + 2 * k3 + k4 );
         
-        % adding the new ponit to the solution vector 
+        % adding the new point to the solution vector 
         pt = [pt pn1];
         % setting the p_{n+1} valut to p_n to start the iteration from
-        % beginning 
+        % begining 
         pn = pn1;
     end
 

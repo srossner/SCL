@@ -1,10 +1,11 @@
+function assignment_2()
 close all; %to close all plots 
 clear all;
 clc;
 
 %------------------------------------
 % input Parameters in Functions
-% p_() is the ordinary differential equatio
+% p_() is the ordinary differential equation
 % p() is the analytical solution
 %------------------------------------
 % given Values 
@@ -21,7 +22,7 @@ p0 = 1;
 %start time 
 t0 = 0;
 
-% end time to 15 seen from p() that a stabil form is reatched on 
+% end time to 15 seen from p() that a stable form is reached on 
 tend = 5;
 
 % starting time step 
@@ -37,26 +38,26 @@ E_rk = 1:iterations;
 my_Plot =  1:iterations;
 
 
-% this is creatig 4 Grapfs 
+% this is creatig 4 Graphs
 for i = iterations:-1:1
     
-    % difine time steps  0.125, 0.25 , 0.5, 1
+    % define time steps  0.125, 0.25 , 0.5, 1
     dt = dtin / power(2, i-1);
 
-    % define array for analitical solution 
+    % define array for analytical solution 
     t = t0:dt:tend;
     
-    %clalculate steps for iterative solutions
+    %calculate steps for iterative solutions
     steps = (tend)/dt;
 
-    % calculate analitical solution (pt) for all points 
+    % calculate analytical solution (pt) for all points 
     pt =  p(t);
     
-    % calculate the derivative (dpt) frome the analitical solution using the
+    % calculate the derivative (dpt) frome the analytical solution using the
     % ordinary differential equation
     dpt = p_(pt);
     
-    % using @p_ as lambda expressions for claculating the solution
+    % using @p_ as lambda expressions for calculating the solution
     % calculate the iterative solution with explicit Euler
     pt_e{i} = explicitEuler(@p_, dt, p0, steps);
     
@@ -66,22 +67,22 @@ for i = iterations:-1:1
     % calculate the iterative solution with Runge Kutta metho
     pt_rk{i} = rungeKuttaMethod(@p_ , dt, p0, steps);
 
-    % calculationg the error
+    % calculating the error
     E_e(i)  = approximationError(  pt , pt_e{i} , dt, tend);
     E_h(i)  = approximationError(  pt , pt_h{i} , dt, tend);
     E_rk(i) = approximationError(  pt , pt_rk{i}, dt, tend);
     
-    % adding text for the privios figure because next step size solution is
+    % adding text for the previous figure because next step size solution is
     % needed
     if(i < 4)
-        % calculation the error reduction from getting smaler steps
+        % calculation the error reduction from getting smaller steps
         text( -2 , 10 , strcat('error red.:', num2str( E_e(i)  / E_e(i+1))));
         text( -2 , 8  , strcat('error red.:', num2str( E_h(i)  / E_h(i+1))));
         text( -2 , 6  , strcat('error red.:', num2str( E_rk(i) / E_rk(i+1))));
     end
     
     %creating plots for each time step size  
-    % best display on 1920/1080 pixel window sice 
+    % best display on 1920/1080 pixel window size 
     my_Plot(i) = figure;
     hold on;
     
@@ -121,7 +122,7 @@ for i = iterations:-1:1
     text( -4 ,  8  , 'E_{Heun}:'  ); 
     text( -3 ,  8  , num2str( E_h(i) ));
 
-    % error from Analytical solution to Runge Kutta metho solution
+    % error from Analytical solution to Runge Kutta method solution
     text( -4 ,  6   , 'E_{RungeK}: ');
     text( -3 ,  6   , num2str( E_rk(i) ));
 
@@ -129,15 +130,16 @@ for i = iterations:-1:1
     text( -4 ,  4  , 'dt: ' );
     text( -3 ,  4   , num2str(dt));
 
-    % Aproximated error on best solution with smalest time step 
+    % Aproximated error on best solution with smallest time step 
     % Aproximated error explicit Euler solution
     text( -4 ,  2  , 'E^~_{Euler}:'  ); 
     text( -3 ,  2  , num2str( approximationError(  pt_e{4} , pt_e{i}, dt, tend )));
     % Aproximated error from method of Heun solution
     text( -4 ,  0  , 'E^~_{Heun}:'  ); 
     text( -3 ,  0  , num2str( approximationError(  pt_h{4} , pt_h{i}, dt, tend)));
-    % Aproximated error from Runge Kutta metho solution
+    % Aproximated error from Runge Kutta method solution
     text( -4 ,  -2  , 'E^~_{RungeK}:'  ); 
     text( -3 ,  -2  , num2str( approximationError(  pt_rk{4} , pt_rk{i}, dt, tend)));
     
 end 
+end

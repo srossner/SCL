@@ -1,24 +1,24 @@
 function [ pt ] = methodOfHeun( p_ , dt, p0, steps)
-%UNTITLED Calculation the next step of an ordinary differential equatio with
-%method Of Heun
+%UNTITLED Calculation the next step of an ordinary differential equation with
+%method of Heun
 
     % setting up the first value of the solution as the start point 
     pn = p0;
-    % set the firs pont as p_n
+    % set the first point as p_n
     pt = p0;
     
     % iterating for the numbers of steps    
     for s = 1:steps
-        %calculation the next step whit an explicitEulerStep and another
+        %calculation the next step with an explicitEulerStep and another
         %evaluation of p_()
         k1 = p_(  pn  );
         k2 = p_(  pn + 0.5 * dt * k1 ) ;
         
         pn1 = pn + 0.5 * dt * ( k1 + k2 );
-        % adding the new ponit to the solution vector 
+        % adding the new point to the solution vector 
         pt = [pt pn1];
         % setting the p_{n+1} valut to p_n to start the iteration from
-        % beginning 
+        % begining 
         pn = pn1;
     end
 
