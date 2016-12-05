@@ -11,12 +11,12 @@ clc;
 % given Values 
 % p(0) = 1 
 %------------------------------------
-% boundry conditions
+% initial conditions
 % p_ = F(y)
 % y(0) = y0
 %------------------------------------
 
-%from boundry conditions 
+%from initial conditions 
 p0 = 1;
 
 %start time 
