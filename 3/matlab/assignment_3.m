@@ -55,10 +55,9 @@ for i = iterations:-1:1
 
     % using @p_ as lambda expressions for calculating the solution
     % calculate the iterative solution with explicit Euler
-    pt_e{i} = explicitEuler(@p_, p0, dt(i), tend);
-    if(i==2)
-        pt_e{i}(4)
-        pt_e{i} 
+    pt_e{i} = implicitEuler(@p_, p0, dt(i), tend);
+    if(i<3)
+       pt_e{i} = adamMoultonlin2(@p_, p0, dt(i), tend); 
     end
     % calculate the iterative solution with method of Heun
     pt_h{i} = methodOfHeun(@p_, p0, dt(i), tend);
@@ -93,7 +92,7 @@ for i = iterations:-1:1
     axis([-4.5 6 -3 25]) ;
 
     %ploting the analitical solution in red and as a line 
-    plot(t{i}, pt{i},'color','r');
+    plot(t{iterations}, pt{iterations},'color','r');
 
     %ploting the derivertive solution in red and as a dashed line 
     %plot(t{i}, dpt, '--', 'color','r'); 
