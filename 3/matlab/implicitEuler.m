@@ -1,4 +1,4 @@
-function [ pt ] = implicitEuler( p_, p0, dt, tend)
+function [ pt ] = implicitEuler( F, F_, p0, dt, tend)
 %UNTITLED Calculation the solution of an ordinary differential equation with
 %implicit Euler
 
@@ -9,9 +9,6 @@ function [ pt ] = implicitEuler( p_, p0, dt, tend)
     pn = p0;
     % set the first point as p_n
     pt = p0;
-    
-    F = @(yn1,yn) yn1-(7*dt*yn1*(1-(yn1/10)))-yn;
-    F_= @(yn1,yn) 1-(7*dt*(1-yn1/5));
 
     % iterating for the numbers of steps 
     for s = 1:steps
