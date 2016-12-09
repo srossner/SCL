@@ -60,7 +60,7 @@ iterations = 6;
     hold on;
     plot(t_analitical_solution, analitical_solution,'color','r');
     % set window name 
-    set(my_Plot_b_1,'name', 'Workshet 3, b explicit Eeuler', 'numbertitle','off');
+    set(my_Plot_b_1,'name', 'Workshet 3, b 1 explicit Eeuler', 'numbertitle','off');
     %set title of plot
     title('Graph of explicit Euler solution:');
     axis([-0.5 5.5 -0.5 20.5]) ;
@@ -81,7 +81,7 @@ iterations = 6;
     hold on;
     plot(t_analitical_solution, analitical_solution,'color','r');
     % set window name 
-    set(my_Plot_b_2,'name', 'Workshet 3, b Method of Heun', 'numbertitle','off');
+    set(my_Plot_b_2,'name', 'Workshet 3, b 2 Method of Heun', 'numbertitle','off');
     %set title of plot
     title('Graph of Method of Heun solution:');
     axis([-0.5 5.5 -0.5 20.5]) ;
@@ -97,12 +97,57 @@ iterations = 6;
     end 
     legend('alytical solution', 'dt:  1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');
 %------------------------------------
-
-
+% c) is implemented in implicitEuler.m and adamMoulton.m
+%------------------------------------
+% d)
+    %Implicit Euler 
+    my_Plot_d_1 = figure;
+    hold on;
+    plot(t_analitical_solution, analitical_solution,'color','r');
+    % set window name 
+    set(my_Plot_d_1,'name', 'Workshet 3, d 1 Implicit Euler', 'numbertitle','off');
+    %set title of plot
+    title('Graph of Implicit Euler solution:');
+    axis([-0.5 5.5 -0.5 20.5]) ;
+    a_x = gca;
+    a_x.XAxisLocation = 'origin';
+    a_x.YAxisLocation = 'origin';
+    for i = 1:iterations
+        %calculate timsteps
+        dt(i) = dtin / power(2, i-1);
+        % define time for aproximation 
+        tb = t0:dt(i):tend;
+        F = @(yn1,yn) yn1-(7*dt*yn1*(1-(yn1/10)))-yn; 
+        F_= @(yn1,yn) 1-(7*dt*(1-yn1/5)); 
+        plot(tb, implicitEuler(F, F_, p0, dt(i), tend), '--x');
+    end 
+    legend('alytical solution', 'dt:  1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
+    %Adams Moulton method  
+    my_Plot_d_2 = figure;
+    hold on;
+    plot(t_analitical_solution, analitical_solution,'color','r');
+    % set window name 
+    set(my_Plot_d_2,'name', 'Workshet 3, d 2 Adams Moulton method', 'numbertitle','off');
+    %set title of plot
+    title('Graph of Adams Moulton method solution:');
+    axis([-0.5 5.5 -0.5 20.5]) ;
+    a_x = gca;
+    a_x.XAxisLocation = 'origin';
+    a_x.YAxisLocation = 'origin';
+    for i = 1:iterations
+        %calculate timsteps
+        dt(i) = dtin / power(2, i-1);
+        % define time for aproximation 
+        tb = t0:dt(i):tend;
+        F = @(yn1,yn) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn1*(1-(yn1/10))))); 
+        F_= @(yn1,yn) 1-(3.5*dt*(1-yn1/5)); 
+        plot(tb, adamMoulton(F, F_, p0, dt(i), tend), '--x');
+    end 
+    legend('alytical solution', 'dt:  1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
 
 
 % this is creating 6 Graphs
-for i = iterations:-1:1
+for i = iterations:-1:9
     
     % define time steps  1,1/2,1/4,1/8,1/16,1/32
     dt(i) = dtin / power(2, i-1);
