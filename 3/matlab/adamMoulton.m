@@ -1,4 +1,4 @@
-function [ pt ] = adamMoulton( p_, p0, dt, tend)
+function [ pt ] = adamMoulton(F, F_, p0, dt, tend)
 %UNTITLED Calculation the solution of an ordinary differential equation with
 %Adam Moulton
 
@@ -9,9 +9,6 @@ function [ pt ] = adamMoulton( p_, p0, dt, tend)
     pn = p0;
     % set the first point as p_n
     pt = p0;
-    
-    F = @(yn1,yn) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn1*(1-(yn1/10)))));
-    F_= @(yn1,yn) 1-(3.5*dt*(1-yn1/5));
 
     % iterating for the numbers of steps 
     for s = 1:steps

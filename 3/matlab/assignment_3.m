@@ -5,36 +5,100 @@ clc;
 
 %------------------------------------
 % input Parameters in Functions
-% p_() is the ordinary differential equation
-% p() is the analytical solution
+% p_() is the ordinary differential equation (1)
+% p() is the analytical solution 
 %------------------------------------
 % given Values 
-% p(0) = 1 
-%------------------------------------
-% boundry conditions
-% p_ = F(y)
-% y(0) = y0
-%------------------------------------
-
+% p(0) = 20 (2)
 %initial value 
 p0 = 20;
-
+%------------------------------------
+% initial conditions
+% p(0) = 20 
+% p_ = f(y)
+% y(0) = y0
+%------------------------------------
+% Time Range t e[0,5]
 %start time 
 t0 = 0;
-
+% end time
 tend = 5;
-
 % starting time step 
 dtin = 1;
-
 %number of steps 
 iterations = 6;
+%------------------------------------
 
-%allocating memmory
-E_e  = 1:iterations;
-E_h  = 1:iterations;
-E_rk = 1:iterations;
-my_Plot =  1:iterations;
+%------------------------------------
+%a) 
+    my_Plot_a = figure;
+    hold on;
+    xAStart = -5;
+    xAEnd = 6;
+    yAStart = -5;
+    yAEnd = 21; 
+    %Plot direction fild for the ordinary differential equation (1)
+    dirField(@p_, yAStart: (yAEnd-yAStart)/25:yAEnd, xAStart:(xAEnd-xAStart)/25:xAEnd);
+    %define timsteps for plottig analitical solution 
+    t_analitical_solution = linspace(t0, tend);
+    analitical_solution = p(t_analitical_solution);
+    %ploting the analitical solution in red and as a line 
+    plot(t_analitical_solution, analitical_solution,'color','r', 'LineWidth' , 3);
+    % set window name 
+    set(my_Plot_a,'name', 'Workshet 3, a', 'numbertitle','off');
+    %set title of plot
+    title('Graph of analytical solution:');
+    legend('Direction Fild', 'Alytical Solution');
+    axis([xAStart xAEnd yAStart yAEnd]) ;
+    a_x = gca;
+    a_x.XAxisLocation = 'origin';
+    a_x.YAxisLocation = 'origin';
+%------------------------------------
+%b) 
+    %explicit Euler
+    my_Plot_b_1 = figure;
+    hold on;
+    plot(t_analitical_solution, analitical_solution,'color','r');
+    % set window name 
+    set(my_Plot_b_1,'name', 'Workshet 3, b explicit Eeuler', 'numbertitle','off');
+    %set title of plot
+    title('Graph of explicit Euler solution:');
+    axis([-0.5 5.5 -0.5 20.5]) ;
+    a_x = gca;
+    a_x.XAxisLocation = 'origin';
+    a_x.YAxisLocation = 'origin';
+    for i = 1:iterations
+        %calculate timsteps
+        dt(i) = dtin / power(2, i-1);
+        % define time for aproximation 
+        tb = t0:dt(i):tend;
+        plot(tb, explicitEuler(@p_, p0, dt(i), tend), '--x');
+    end 
+    legend('alytical solution', 'dt:   1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');
+    
+    % Heun
+    my_Plot_b_2 = figure;
+    hold on;
+    plot(t_analitical_solution, analitical_solution,'color','r');
+    % set window name 
+    set(my_Plot_b_2,'name', 'Workshet 3, b Method of Heun', 'numbertitle','off');
+    %set title of plot
+    title('Graph of Method of Heun solution:');
+    axis([-0.5 5.5 -0.5 20.5]) ;
+    a_x = gca;
+    a_x.XAxisLocation = 'origin';
+    a_x.YAxisLocation = 'origin';
+    for i = 1:iterations
+        %calculate timsteps
+        dt(i) = dtin / power(2, i-1);
+        % define time for aproximation 
+        tb = t0:dt(i):tend;
+        plot(tb, methodOfHeun(@p_, p0, dt(i), tend), '--x');
+    end 
+    legend('alytical solution', 'dt:  1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');
+%------------------------------------
+
+
 
 
 % this is creating 6 Graphs
@@ -55,9 +119,25 @@ for i = iterations:-1:1
 
     % using @p_ as lambda expressions for calculating the solution
     % calculate the iterative solution with explicit Euler
-    pt_e{i} = implicitEuler(@p_, p0, dt(i), tend);
+        
+    F = @(yn1,yn) yn1-(7*dt*yn1*(1-(yn1/10)))-yn;
+    F_= @(yn1,yn) 1-(7*dt*(1-yn1/5));
+    
+    pt_e{i} = implicitEuler(F, F_, p0, dt(i), tend);
+    
+    
+    %adamMoultonlin
+    F = @(yn1,yn) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn1*(1-(yn1/10)))));
+    F_= @(yn1,yn) 1-(3.5*dt*(1-yn1/5));
+    %adamMoultonlin1
+    F = @(yn1,yn) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn*(1-(yn1/10)))));
+    F_= @(yn1,yn) 1+(.35*dt*yn);
+    %adamMoultonlin2
+    F = @(yn1,yn) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn1*(1-(yn/10)))));
+    F_= @(yn1,yn) 1-(3.5*dt*(1-0.1*yn));
+
     if(i<3)
-       pt_e{i} = adamMoultonlin2(@p_, p0, dt(i), tend); 
+       pt_e{i} = adamMoultonlin2(F, F_, p0, dt(i), tend); 
     end
     % calculate the iterative solution with method of Heun
     pt_h{i} = methodOfHeun(@p_, p0, dt(i), tend);
@@ -90,7 +170,7 @@ for i = iterations:-1:1
     title(strcat( 'Graph of ordinary differential equatio with timestep:', num2str(dt(i))));
     %set axis for text display and solution plot 
     axis([-4.5 6 -3 25]) ;
-
+    
     %ploting the analitical solution in red and as a line 
     plot(t{iterations}, pt{iterations},'color','r');
 
