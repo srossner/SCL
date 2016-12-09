@@ -1,4 +1,4 @@
-function xfinal = NewtonsMethod(G, G_, InitialGuess)
+function xnext = NewtonsMethod(G, G_, PreviousValue,dt)
 %G=0 is the equation to be solved, 
 %G_ is the derivative of G with respect to the unknown variable
 %Initial Guess is the value from which the iteration of Newton's Method
@@ -14,13 +14,15 @@ function xfinal = NewtonsMethod(G, G_, InitialGuess)
     %iniialization of variables to suit our algorithm
     %i is counter variable which counts the number of iterations
     error = 1;
-    xfinal = InitialGuess;  
+    p_ = @(p) 7* ( 1 - (p./10)).*p ;
+    InitialGuess = PreviousValue + dt*p_(PreviousValue);
+    xnext = InitialGuess;  
     i=0; 
     
     while(error>1e-4 && i<200)
-        xinitial = xfinal; 
-        xfinal = xinitial - (G(xinitial,InitialGuess)/G_(xinitial,InitialGuess));
-        error = abs(xfinal - xinitial);
+        xpre = xnext; 
+        xnext = xpre - (G(xpre,PreviousValue)/G_(xpre,PreviousValue));
+        error = abs(xpre - xnext);
         i=i+1;
     end
     if(i>=200 && error>.01)

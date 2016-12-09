@@ -13,7 +13,7 @@ function [ pt ] = adamMoultonlin1(F, F_, p0, dt, tend)
     % iterating for the numbers of steps 
     for s = 1:steps
        
-        pn1 = NewtonsMethod(F,F_,pn);
+        pn1 = NewtonsMethod(F,F_,pn,dt);
         % adding the new ponit to the solution vector 
         pt = [pt pn1];
         % setting the p_{n+1} valut to p_n to start the iteration from
