@@ -19,7 +19,7 @@ function xnext = NewtonsMethod(G, G_, PreviousValue,dt)
     xnext = InitialGuess;  
     i=0; 
     
-    while(error>1e-4 && i<200)
+    while(error>1e-4 && i<200000)
         xpre = xnext; 
         xnext = xpre - (G(xpre,PreviousValue)/G_(xpre,PreviousValue));
         error = abs(xpre - xnext);
