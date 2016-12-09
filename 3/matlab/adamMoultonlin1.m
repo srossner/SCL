@@ -1,24 +1,9 @@
-function [ pt ] = adamMoultonlin1(F, F_, p0, dt, tend)
-%UNTITLED Calculation the solution of an ordinary differential equation with
-%Adam Moulton
-
-    %calculate steps for iterative solutions
-    steps = tend/dt;
-
-    % setting up the first value of the solution as the start point 
-    pn = p0;
-    % set the first point as p_n
-    pt = p0;
-
-    % iterating for the numbers of steps 
-    for s = 1:steps
-       
-        pn1 = NewtonsMethod(F,F_,pn,dt);
-        % adding the new ponit to the solution vector 
-        pt = [pt pn1];
-        % setting the p_{n+1} valut to p_n to start the iteration from
-        % beginning 
-        pn = pn1;
-    end
-
+function [ pt ] = adamMoultonlin1( p0, tstep, tend)
+% This function defines the right hand side f, the first derivative of the right hand side
+%with respect to y, initial value p0, the stepsize dt and the end time tend. The output
+%of the function is a vector containing all computed approximate values for
+%y using Adam Mouldton Method by linerisation method 1
+    F = @(yn1,yn,dt) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn*(1-(yn1/10)))));
+    F_= @(yn1,yn,dt) 1+(.35*dt*yn);
+    [ pt ] = implicitMethod( F, F_, p0, tstep, tend);
 end

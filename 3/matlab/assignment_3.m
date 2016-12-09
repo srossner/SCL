@@ -18,14 +18,14 @@ p0 = 20;
 % p_ = f(y)
 % y(0) = y0
 %------------------------------------
-% Time Range t e[0,5]
+% Time Range t is [0,5]
 %start time 
 t0 = 0;
 % end time
 tend = 5;
 % starting time step 
 dtin = 1;
-%number of steps 
+%number of time step variants
 iterations = 6;
 %------------------------------------
 
@@ -39,16 +39,16 @@ iterations = 6;
     yAEnd = 21; 
     %Plot direction fild for the ordinary differential equation (1)
     dirField(@p_, yAStart: (yAEnd-yAStart)/25:yAEnd, xAStart:(xAEnd-xAStart)/25:xAEnd);
-    %define timsteps for plottig analitical solution 
+    %define timsteps for plottig analytical solution 
     t_analitical_solution = linspace(t0, tend);
     analitical_solution = p(t_analitical_solution);
-    %ploting the analitical solution in red and as a line 
+    %ploting the analytical solution in red and as a line 
     plot(t_analitical_solution, analitical_solution,'color','r', 'LineWidth' , 3);
     % set window name 
     set(my_Plot_a,'name', 'Workshet 3, a', 'numbertitle','off');
     %set title of plot
-    title('Graph of analytical solution:');
-    legend('Direction Fild', 'Alytical Solution');
+    title('Graph of Analytical Solution:');
+    legend('Direction Fild', 'Analytical Solution');
     axis([xAStart xAEnd yAStart yAEnd]) ;
     a_x = gca;
     a_x.XAxisLocation = 'origin';
@@ -58,6 +58,7 @@ iterations = 6;
     %explicit Euler
     my_Plot_b_1 = figure;
     hold on;
+    %plotting analytical solution
     plot(t_analitical_solution, analitical_solution,'color','r');
     % set window name 
     set(my_Plot_b_1,'name', 'Workshet 3, b 1 explicit Eeuler', 'numbertitle','off');
@@ -74,7 +75,7 @@ iterations = 6;
         tb = t0:dt(i):tend;
         plot(tb, explicitEuler(@p_, p0, dt(i), tend), '--x');
     end 
-    legend('alytical solution', 'dt:   1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');
+    legend('analytical solution', 'dt:   1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');
     
     % Heun
     my_Plot_b_2 = figure;
@@ -95,7 +96,7 @@ iterations = 6;
         tb = t0:dt(i):tend;
         plot(tb, methodOfHeun(@p_, p0, dt(i), tend), '--x');
     end 
-    legend('alytical solution', 'dt:  1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');
+    legend('analytical solution', 'dt:  1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');
 %------------------------------------
 % c) is implemented in implicitEuler.m and adamMoulton.m
 %------------------------------------
@@ -112,16 +113,17 @@ iterations = 6;
     a_x = gca;
     a_x.XAxisLocation = 'origin';
     a_x.YAxisLocation = 'origin';
-    for i = 1:iterations
+    for i = 2:iterations
         %calculate timsteps
         dt(i) = dtin / power(2, i-1);
         % define time for aproximation 
         tb = t0:dt(i):tend;
-        F = @(yn1,yn) yn1-(7*dt*yn1*(1-(yn1/10)))-yn; 
-        F_= @(yn1,yn) 1-(7*dt*(1-yn1/5)); 
-        plot(tb, implicitEuler(F, F_, p0, dt(i), tend), '--x');
+        %define the implicit equation F=0 and F_ is derivative of F
+        F = @(yn1,yn,dt) yn1-(7*dt.*yn1.*(1-(yn1/10)))-yn; 
+        F_= @(yn1,yn,dt) 1-(7*dt*(1-yn1/5));
+        plot(tb, implicitMethod( F, F_, p0, dt(i), tend,1), '--x');
     end 
-    legend('alytical solution', 'dt:  1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
+    legend('analytical solution', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
     %Adams Moulton method  
     my_Plot_d_2 = figure;
     hold on;
@@ -134,18 +136,66 @@ iterations = 6;
     a_x = gca;
     a_x.XAxisLocation = 'origin';
     a_x.YAxisLocation = 'origin';
-    for i = 1:iterations
+    for i = 2:iterations
         %calculate timsteps
         dt(i) = dtin / power(2, i-1);
         % define time for aproximation 
         tb = t0:dt(i):tend;
-        F = @(yn1,yn) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn1*(1-(yn1/10))))); 
-        F_= @(yn1,yn) 1-(3.5*dt*(1-yn1/5)); 
-        plot(tb, adamMoulton(F, F_, p0, dt(i), tend), '--x');
+        F = @(yn1,yn,dt) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn1*(1-(yn1/10))))); 
+        F_= @(yn1,yn,dt) 1-(3.5*dt*(1-yn1/5)); 
+        plot(tb, implicitMethod( F, F_, p0, dt(i), tend,2), '--x');
     end 
-    legend('alytical solution', 'dt:  1', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
+    legend('analytical solution', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
 
+%------------------------------------
+% e)
+    %Linearisation 1 
+    my_Plot_d_1 = figure;
+    hold on;
+    plot(t_analitical_solution, analitical_solution,'color','r');
+    % set window name 
+    set(my_Plot_d_1,'name', 'Workshet 3, e 1 Linearisation 1', 'numbertitle','off');
+    %set title of plot
+    title('Graph of Adam Moulton Linerisation 1 solution:');
+    axis([-0.5 5.5 -0.5 20.5]) ;
+    a_x = gca;
+    a_x.XAxisLocation = 'origin';
+    a_x.YAxisLocation = 'origin';
+    for i = 2:iterations
+        %calculate timsteps
+        dt(i) = dtin / power(2, i-1);
+        % define time for aproximation 
+        tb = t0:dt(i):tend;
+        F = @(yn1,yn,dt) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn*(1-(yn1/10)))));
+        F_= @(yn1,yn,dt) 1+(.35*dt*yn);
+        plot(tb, implicitMethod( F, F_, p0, dt(i), tend,3), '--x');
+    end 
+    legend('analytical solution', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
+    %Linearisation 2 
+    my_Plot_d_2 = figure;
+    hold on;
+    plot(t_analitical_solution, analitical_solution,'color','r');
+    % set window name 
+    set(my_Plot_d_2,'name', 'Workshet 3, e 2 Linerisation 2 ', 'numbertitle','off');
+    %set title of plot
+    title('Graph of Adams Moulton Linerisation 2 solution:');
+    axis([-0.5 5.5 -0.5 20.5]) ;
+    a_x = gca;
+    a_x.XAxisLocation = 'origin';
+    a_x.YAxisLocation = 'origin';
+    for i = 2:iterations
+        %calculate timsteps
+        dt(i) = dtin / power(2, i-1);
+        % define time for aproximation 
+        tb = t0:dt(i):tend; 
+        F = @(yn1,yn,dt) yn1-yn-(3.5*dt*((yn*(1-(yn/10)))+(yn1*(1-(yn/10)))));
+        F_= @(yn1,yn,dt) 1-(3.5*dt*(1-0.1*yn));
+        plot(tb, implicitMethod( F, F_, p0, dt(i), tend,4), '--x');
+    end 
+    legend('analytical solution', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
 
+    
+    
 % this is creating 6 Graphs
 for i = iterations:-1:9
     
