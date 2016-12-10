@@ -24,7 +24,7 @@ function xnext = NewtonsMethod(G, G_, PreviousValue,dt,f)
         error = abs(xpre - xnext);
         i=i+1;
     end
-    if(i==200)
+    if(i>=200)
         switch(f)
             case 1
                 fprintf('Implicit Euler does not coverge with timestep  %i .\n', dt);
