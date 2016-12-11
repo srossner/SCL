@@ -105,7 +105,7 @@ maxIterations = 200;
         t_analitical_solution, analitical_solution,...
         @implicitMethod, F, F_, p0, maxIterations, ...
         'Workshet 3, d 2', 'Adams Moulton method');
-    legend('analytical solution', 'dt:  1/2', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
+    legend('analytical solution', 'dt:  1/4', 'dt:  1/8', 'dt: 1/16','dt: 1/32');    
  
 %------------------------------------
 
@@ -211,6 +211,22 @@ maxIterations = 200;
     TestTable.addTable( [error_AdamsMoulton ; error_red_AdamsMoulton] , ' Adams Moulton' );
     TestTable.addTable( [error_AdamsMoultonLin1 ; error_red_AdamsMoultonLin1] , ' Adams Moulton Lin1' );
     TestTable.addTable( [error_AdamsMoultonLin2 ; error_red_AdamsMoultonLin2] , ' Adams Moulton Lin2' );
+    
+    % Define and add a new mode
+    CoulmnsName = {'explcit|Euler' 'Heun' ...
+                                'implicit|Euler' 'Adams-|-Moulton' ...
+                                'Adams-|-Moulton|l1' 'Adams-|-Moulton|l2' };
+    RowsName = {'1/2' '1/4' '1/8' '1/16' '1/32'};
+    SecondMode = TableMode( CoulmnsName, RowsName  );
+    TestTable.addMode( SecondMode );
+    
+    for i = 1:iterations
+        Stable_cases(i) = 1;
+    end
+
+    % pring a table with new mode
+   % TestTable.addTable( '?' , 'Stable cases' );
+    
 
     
     
