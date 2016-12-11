@@ -31,7 +31,7 @@ function [ solution ] = performAlgorithmImplicit( t0, tend, dt_start, iterations
         [solution{i}, coverge(i)] = Algorithm(ordinaryDifferentialEquationF, ordinaryDifferentialEquationF_,...
         initialValue, dt(i), tend, maxIterations);
     
-        if(coverge(i) == 0)
+        if(~coverge(i))
             fprintf( '%s does not coverge with timestep  %i .\n',String_AlgorithmName ,  dt(i));
         end
     
