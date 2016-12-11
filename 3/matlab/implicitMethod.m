@@ -1,7 +1,10 @@
-function [ pt ] = implicitMethod( F, F_, p0, dt, tend,f)
+function [ pt, coverge] = implicitMethod( F, F_, p0, dt, tend, maxIterations)
 %Calculation of the solution of an ordinary differential equation with
 %implicit method. This function can be used for the implicit methods as
 %mentioned in the assignement. F and F_ will control the type of method
+
+    %coverge boolean
+    coverge =  1;
 
     %calculate steps for iterative solutions
     steps = tend/dt;
@@ -14,7 +17,11 @@ function [ pt ] = implicitMethod( F, F_, p0, dt, tend,f)
     % iterating for the numbers of steps 
     for s = 1:steps
        
-        pn1 = NewtonsMethod(F,F_,pn,dt,f);
+        [pn1, iterations] = NewtonsMethod(F,F_,pn,dt,maxIterations);
+        if(iterations>=maxIterations)
+            coverge = 0;
+        end
+            
         % adding the new ponit to the solution vector 
         pt = [pt pn1];
         % setting the p_{n+1} valut to p_n to start the iteration from
