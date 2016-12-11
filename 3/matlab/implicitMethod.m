@@ -4,7 +4,7 @@ function [ pt, coverge] = implicitMethod( F, F_, p0, dt, tend, maxIterations)
 %mentioned in the assignement. F and F_ will control the type of method
 
     %coverge boolean
-    coverge =  1;
+    coverge =  true;
 
     %calculate steps for iterative solutions
     steps = tend/dt;
@@ -19,7 +19,7 @@ function [ pt, coverge] = implicitMethod( F, F_, p0, dt, tend, maxIterations)
        
         [pn1, iterations] = NewtonsMethod(F,F_,pn,dt,maxIterations);
         if(iterations>=maxIterations)
-            coverge = 0;
+            coverge = false;
         end
             
         % adding the new ponit to the solution vector 
