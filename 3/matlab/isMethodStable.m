@@ -13,6 +13,10 @@ function Answer =  isMethodStable( Data, InitialValue, equilibriumPoint )
         end
     end
     
+    if(isnan(Data))
+        MethodStable = false;
+    end
+    
     switch ( MethodStable )
         case true
             Answer = 'STABLE';
