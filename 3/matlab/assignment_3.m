@@ -239,20 +239,13 @@ maxIterations = 200;
     Stable_cases_AdamsMoultonLin1
     Stable_cases_AdamsMoultonLin2
     
-    dt_1 = { Stable_cases_explicit_Euler{1} Stable_cases_MethodOfHeun{1} Stable_cases_ImplicitEuler{1} Stable_cases_AdamsMoulton{1} Stable_cases_AdamsMoultonLin1{1} Stable_cases_AdamsMoultonLin2{1} };
-    dt_2 = { Stable_cases_explicit_Euler{2} Stable_cases_MethodOfHeun{2} Stable_cases_ImplicitEuler{2} Stable_cases_AdamsMoulton{2} Stable_cases_AdamsMoultonLin1{2} Stable_cases_AdamsMoultonLin2{2} };
-    dt_3 = { Stable_cases_explicit_Euler{3} Stable_cases_MethodOfHeun{3} Stable_cases_ImplicitEuler{3} Stable_cases_AdamsMoulton{3} Stable_cases_AdamsMoultonLin1{3} Stable_cases_AdamsMoultonLin2{3} };
-    dt_4 = { Stable_cases_explicit_Euler{4} Stable_cases_MethodOfHeun{4} Stable_cases_ImplicitEuler{4} Stable_cases_AdamsMoulton{4} Stable_cases_AdamsMoultonLin1{4} Stable_cases_AdamsMoultonLin2{4} };
-    dt_5 = { Stable_cases_explicit_Euler{5} Stable_cases_MethodOfHeun{5} Stable_cases_ImplicitEuler{5} Stable_cases_AdamsMoulton{5} Stable_cases_AdamsMoultonLin1{5} Stable_cases_AdamsMoultonLin2{5}};
     
-    
-    
-    
+    for i = 1:iterations
+        strings{i} = { Stable_cases_explicit_Euler{i} Stable_cases_MethodOfHeun{i} Stable_cases_ImplicitEuler{i} Stable_cases_AdamsMoulton{i} Stable_cases_AdamsMoultonLin1{i} Stable_cases_AdamsMoultonLin2{i} };
+    end 
     % pring a table with new mode
-    TestTable.addTable( [ dt_1 ; dt_2 ; dt_3; dt_4; dt_5], 'string');
-    
+    TestTable.addTable( [ strings{1} ; strings{2} ; strings{3}; strings{4}; strings{5}], 'string');
 
-    
     
 end
  
