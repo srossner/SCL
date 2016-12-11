@@ -19,9 +19,9 @@ function Answer =  isMethodStable( Data, InitialValue, equilibriumPoint )
     
     switch ( MethodStable )
         case true
-            Answer = 'STABLE';
+            Answer = 'stable';
         case false
-            Answer = 'UNSTABLE';
+            Answer = 'unstable';
         otherwise
             Answer = 'Error during the processing data';
     end
