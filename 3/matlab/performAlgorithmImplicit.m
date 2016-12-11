@@ -31,9 +31,8 @@ function [ solution ] = performAlgorithmImplicit( t0, tend, dt_start, iterations
         [solution{i}, coverge(i)] = Algorithm(ordinaryDifferentialEquationF, ordinaryDifferentialEquationF_,...
         initialValue, dt(i), tend, maxIterations);
     
-        
         if(~coverge(i))
-            fprintf( '%s does not coverge with timestep  %i .\n',String_AlgorithmName ,  dt(i));
+            fprintf( 'Newton Method in %s does not coverge with timestep  %i .\n',String_AlgorithmName ,  dt(i));
             solution{i} = NaN;
         else
             plot(tb, solution{i} , '--x'); 
