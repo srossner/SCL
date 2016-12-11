@@ -32,7 +32,7 @@ function [ solution ] = performAlgorithmImplicit( t0, tend, dt_start, iterations
         initialValue, dt(i), tend, maxIterations);
     
         if(coverge(i) == 0)
-            fprintf( '%s does not coverge with timestep  %i .\n',String_AlgorithmName ,  dt(i));
+            fprintf( 'Newton Method in %s does not coverge with timestep  %i .\n',String_AlgorithmName ,  dt(i));
         end
     
         plot(tb, solution{i} , '--x');
