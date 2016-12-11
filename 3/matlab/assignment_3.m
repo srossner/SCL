@@ -230,23 +230,15 @@ maxIterations = 200;
         Stable_cases_AdamsMoultonLin1{i} = isMethodStable(solution_AdamsMoultonLin1{i},p0,equilibriumPoint ) ;
         Stable_cases_AdamsMoultonLin2{i} = isMethodStable(solution_AdamsMoultonLin2{i},p0,equilibriumPoint ) ;
 
-    end
-
-    Stable_cases_explicit_Euler
-    Stable_cases_MethodOfHeun
-    Stable_cases_ImplicitEuler
-    Stable_cases_AdamsMoulton
-    Stable_cases_AdamsMoultonLin1
-    Stable_cases_AdamsMoultonLin2
-    
+    end    
     
     for i = 1:iterations
         strings{i} = { Stable_cases_explicit_Euler{i} Stable_cases_MethodOfHeun{i} Stable_cases_ImplicitEuler{i} Stable_cases_AdamsMoulton{i} Stable_cases_AdamsMoultonLin1{i} Stable_cases_AdamsMoultonLin2{i} };
     end 
+    
     % pring a table with new mode
     TestTable.addTable( [ strings{1} ; strings{2} ; strings{3}; strings{4}; strings{5}], 'string');
 
-    
 end
  
    
