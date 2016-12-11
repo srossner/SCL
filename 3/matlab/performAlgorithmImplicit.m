@@ -15,7 +15,7 @@ function [ solution ] = performAlgorithmImplicit( t0, tend, dt_start, iterations
         'numbertitle','off');
     
     %set title of plot
-    title( strcat(string('Graph of '), String_AlgorithmName , string(' solution:')));
+    title( sprintf( 'Graph of %s solution:', String_AlgorithmName ));
     axis([-0.5 5.5 -0.5 20.5]) ;
     a_x = gca;
     a_x.XAxisLocation = 'origin';
