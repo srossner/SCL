@@ -223,8 +223,8 @@ maxIterations = 200;
     equilibriumPoint = 10;
     
     for i = 1:iterations
-        Stable_cases_explicit_Euler{i}   = isMethodStable(solution_explicit_Euler{i+ 1},p0,equilibriumPoint ) ;
-        Stable_cases_MethodOfHeun{i}     = isMethodStable(solution_MethodOfHeun{i+ 1},p0,equilibriumPoint ) ;
+        Stable_cases_explicit_Euler{i}   = isMethodStable(solution_explicit_Euler{i + 1},p0,equilibriumPoint ) ;
+        Stable_cases_MethodOfHeun{i}     = isMethodStable(solution_MethodOfHeun{i + 1},p0,equilibriumPoint ) ;
         Stable_cases_ImplicitEuler{i}    = isMethodStable(solution_ImplicitEuler{i},p0,equilibriumPoint ) ;
         Stable_cases_AdamsMoulton{i}     = isMethodStable(solution_AdamsMoulton{i},p0,equilibriumPoint ) ;
         Stable_cases_AdamsMoultonLin1{i} = isMethodStable(solution_AdamsMoultonLin1{i},p0,equilibriumPoint ) ;
@@ -243,6 +243,7 @@ maxIterations = 200;
 	CoulmnsName = { 'explcitEuler' 'Heun' ...
                     'implicitEuler' 'AdamsMoulton' ...
                     'AdamsMoultonLin1' 'AdamsMoultonLin2' };
+                
     StableCases = table ( Stable_cases_explicit_Euler',...
                              Stable_cases_MethodOfHeun', ...
                              Stable_cases_ImplicitEuler', ...
