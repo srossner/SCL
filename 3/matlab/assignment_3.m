@@ -140,6 +140,12 @@ maxIterations = 200;
     error_AdamsMoulton      = 1:iterations;
     error_AdamsMoultonLin1  = 1:iterations;
     error_AdamsMoultonLin2  = 1:iterations;
+    error_red_explicit_Euler= 1:iterations;
+    error_red_MethodOfHeun  = 1:iterations;
+    error_red_ImplicitEuler = 1:iterations;
+    error_red_AdamsMoulton  = 1:iterations;
+    error_red_AdamsMoultonLin1= 1:iterations;
+    error_red_AdamsMoultonLin2= 1:iterations;
     
     for i = 1:iterations
         
@@ -167,16 +173,44 @@ maxIterations = 200;
         error_AdamsMoultonLin2(i) = ...
             approximationError(analitical_solution, solution_AdamsMoultonLin2{i},...
                                 dt, tend);
-                   
-        
+        if( i > 1)
+            error_red_explicit_Euler(i)    = error_explicit_Euler(i-1)/error_explicit_Euler(i);
+            error_red_MethodOfHeun(i)      = error_MethodOfHeun(i-1)/error_MethodOfHeun(i);
+            error_red_ImplicitEuler(i)     = error_ImplicitEuler(i-1)/error_ImplicitEuler(i);
+            error_red_AdamsMoulton(i)      = error_AdamsMoulton(i-1)/error_AdamsMoulton(i);
+            error_red_AdamsMoultonLin1(i)  = error_AdamsMoultonLin1(i-1)/error_AdamsMoultonLin1(i);
+            error_red_AdamsMoultonLin2(i)  = error_AdamsMoultonLin2(i-1)/error_AdamsMoultonLin2(i);
+        else
+            error_red_explicit_Euler(i)    = 0;
+            error_red_MethodOfHeun(i)      = 0;
+            error_red_ImplicitEuler(i)     = 0;
+            error_red_AdamsMoulton(i)      = 0;
+            error_red_AdamsMoultonLin1(i)  = 0;
+            error_red_AdamsMoultonLin2(i)  = 0;
+           
+        end
     end
     
-    error_explicit_Euler
-    error_MethodOfHeun
-    error_ImplicitEuler
-    error_AdamsMoulton
-    error_AdamsMoultonLin1
-    error_AdamsMoultonLin2
+    % The first spet is defining a Mode for a table.
+    % The should be at least one Mode in order to print a tabble
+    CoulmnsName = {'1/2' '1/4' '1/8' '1/16' '1/32'};
+    RowsName = {'Error', 'Error red.'};
+    FirstMode = TableMode( CoulmnsName, RowsName  );
+
+    % Create a table with a particular titel
+    TestTable = SpecificTable('Assigment 3');
+
+    % Add a Mode to the TestTable
+    TestTable.addMode( FirstMode );
+
+    % Add new tables
+    TestTable.addTable( [error_explicit_Euler ; error_red_explicit_Euler] , 'Explicit Euler' );
+    TestTable.addTable( [error_MethodOfHeun ; error_red_MethodOfHeun] , 'Method Of Heun' );
+    TestTable.addTable( [error_ImplicitEuler ; error_red_ImplicitEuler] , 'Implicit Euler' );
+    TestTable.addTable( [error_AdamsMoulton ; error_red_AdamsMoulton] , ' Adams Moulton' );
+    TestTable.addTable( [error_AdamsMoultonLin1 ; error_red_AdamsMoultonLin1] , ' Adams Moulton Lin1' );
+    TestTable.addTable( [error_AdamsMoultonLin2 ; error_red_AdamsMoultonLin2] , ' Adams Moulton Lin2' );
+
     
     
 end
