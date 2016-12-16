@@ -29,6 +29,8 @@ my_Sol = reshape(sol2,[size_x, size_y]);
 surfc( y_,x_,my_Sol);
 
 
+
+
 N = [ 7 15 31 63 ];
 
 for i = 1:length(N)
@@ -50,10 +52,14 @@ disp('Full storage');
 for i = 1:length(N)
     tic
         solution{i} =  A{i}\b{i};
-        
-        size (A{i})
     toc
 end
+
+for i = 1:length(N)
+    [m, n] = size (A{i});
+    number_of_storage_Full_Storage = m*n
+end
+
 disp(' ');
 
 disp('Sparse storage');
@@ -61,6 +67,9 @@ for i = 1:length(N)
     tic
         solution{i} =  A_s{i}\b{i};
     toc
-    
+end
+
+for i = 1:length(N)
+    number_of_Storage_spars = nnz(A_s{i})
 end
 
