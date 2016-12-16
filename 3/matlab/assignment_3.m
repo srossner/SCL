@@ -1,7 +1,7 @@
 function assignment_3()
 close all; %to close all plots 
 clear all;
-clc;
+clc;cl
 
 %------------------------------------
 % input Parameters in Functions
@@ -191,7 +191,7 @@ maxIterations = 200;
         end
     end
     
-    addpath ./matlabTableFramework/;
+    addpath ../../Submodules/matlabTableFramework/;
     % The first spet is defining a Mode for a table.
     % The should be at least one Mode in order to print a tabble
     CoulmnsName = {'1/2' '1/4' '1/8' '1/16' '1/32'};
