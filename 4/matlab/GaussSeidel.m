@@ -1,4 +1,4 @@
-function Sol = GaussSeidel( A , InitialGuess, b , maxIterations )
+function Sol = GaussSeidel( A , InitialGuess, b , maxIterations , accuracy)
 %This function solves the system of linear equation Ax=b using Gauss Seidel
 
     Sol = InitialGuess;
@@ -6,7 +6,7 @@ function Sol = GaussSeidel( A , InitialGuess, b , maxIterations )
     error = 1;
     iteration = 0;
     
-    while  error>=.0001 && iteration <= maxIterations
+    while  error>=accuracy && iteration <= maxIterations
         
         for i=1:N
             Sol(i) = (b(i)- A(i,:)*Sol + A(i,i)*Sol(i))/A(i,i);
