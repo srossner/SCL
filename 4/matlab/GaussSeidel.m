@@ -1,28 +1,21 @@
-function [ x ] = GaussSeidel( A , x0, b , maxIterations )
+function Sol = GaussSeidel( A , InitialGuess, b , maxIterations )
+%This function solves the system of linear equation Ax=b using Gauss Seidel
 
-    [m, n] = size(A);
-    if m ~= n
-        error('Matrix A must be square');
-    end
-    
-    err = 1;
+    Sol = InitialGuess;
+    N = size(A,1);
+    error = 1;
     iteration = 0;
     
-    while err >= 0.01 || maxIterations <= iteration
+    while  error>=.0001 && iteration <= maxIterations
         
-       L = tril(A);
-       U = triu(A) - diag(diag(A));
-       
-       t = ( L - diag(diag(A)) )^-1;
-       
-       x = t * U * x0 + t *b;
-
-        err = norm(A*x -b);
+        for i=1:N
+            Sol(i) = (b(i)- A(i,:)*Sol + A(i,i)*Sol(i))/A(i,i);
+        end
         
-        x0 = x;
+        iteration = iteration + 1;
+        
+        error = norm(A*Sol -b);
         
     end
-
-
+    
 end
-
