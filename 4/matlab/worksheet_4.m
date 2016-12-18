@@ -29,7 +29,7 @@ surfc( y_,x_,my_Sol);
 
 
 
-N = [ 7 15 31 63 ];
+N = [ 7 15 31 63]; % 127];
 
 for i = 1:length(N)
     
@@ -49,7 +49,7 @@ end
 t_direct_solution_full_matrix = 1:length(N);
 for i = 1:length(N)
     tic;
-        solution{i} =  A{i}\b{i};
+        solution_full{i} =  A{i}\b{i};
    t_direct_solution_full_matrix(i) =  toc;
 end
 
@@ -62,7 +62,7 @@ end
 t_direct_solution_spars_matrix = 1:length(N);
 for i = 1:length(N)
     tic;
-        solution{i} =  A_s{i}\b{i};
+        solution_spars{i} =  A_s{i}\b{i};
     t_direct_solution_spars_matrix(i) = toc;
 end
 
@@ -74,10 +74,20 @@ end
 t_iterativ_solution_spars_matrix = 1:length(N);
 for i = 1:length(N)
     tic;
-        solution{i} =  GaussSeidel(A_s{i}, zeros(length(b{i}), 1 ) , b{i}, 100, .0001);
+        solution_GaussSeidel{i} =  GaussSeidel(A_s{i}, zeros(length(b{i}), 1 ) , b{i}, 40000, .0001 );
     t_iterativ_solution_spars_matrix(i) = toc;
 end
 
+error_gaus = 1:length(N);
+error_gaus_red = 1:length(N);
+for i = 1:length(N)
+    
+     error_gaus(i) =   approximationError( N(i), N(i),  solution_GaussSeidel{i} , solution_spars{i} );
+     if i > 1
+         error_gaus_red(i) = error_gaus(i-1) / error_gaus(i);
+     end
+
+end
 
 
 
@@ -87,7 +97,7 @@ TestTable = SpecificTable('Worksheed 4');
 
 % The first spet is defining a Mode for a table.
 % The should be at least one Mode in order to print a tabble
-CoulmnsName = {'7' '15' '31' '63' };
+CoulmnsName = {'7' '15' '31' '63' '127' };
 RowsName = {'runtime', 'storage'};
 FirstMode = TableMode( CoulmnsName, RowsName  );
 % Add a Mode to the TestTable
@@ -106,23 +116,7 @@ RowsName = {'error', 'error red.'};
 SecondMode = TableMode( CoulmnsName, RowsName  );
 TestTable.addMode( SecondMode );
 
-TestTable.addTable( [1 2 3 4 5  ; 1 2 3 4 5 ] , ' ' );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+TestTable.addTable( [ error_gaus  ; error_gaus_red ] , ' ' );
 
 
 
