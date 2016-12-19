@@ -3,31 +3,31 @@ clear;
 clc;
 
 % plot analitical Solution 
-dt_x = 0.1;
-dt_y = 0.1;
-x_ = dt_x:dt_x:(1-dt_x);
-y_ = dt_y:dt_y:(1-dt_y);
+N_X = 9;
+N_Y = 9;
+dt_x = 1/(N_X + 1) ;
+dt_y = 1/(N_Y + 1);
+x_ = 0:dt_x:1;
+y_ = 0:dt_y:1;
 sol =  T_xy(x_,y_);
-surfc( y_,x_,sol);
 
-size_x = length(x_);
-size_y = length(y_);
-M = createM(size_x, size_y);
+plotT( N_X , N_Y, sol);
+
+% plot finite difference Solution 
+M = createM(N_X, N_Y);
+
 figure
 spy(M);
 
+x_ = dt_x:dt_x:(1 - dt_x);
+y_ = dt_y:dt_y:(1 - dt_y);
 
 x1 = T_xxyy(x_, y_);
-x3 = reshape(x1,[(size_x * size_y) , 1 ]);
+x3 = reshape(x1,[(N_X * N_Y) , 1 ]);
 
 sol2 = M\x3;
 
-figure
-my_Sol = reshape(sol2,[size_x, size_y]);
-
-surfc( y_,x_,my_Sol);
-
-
+plotT( N_X , N_Y, sol2);
 
 N = [ 7 15 31 63]; % 127];
 
@@ -42,8 +42,9 @@ for i = 1:length(N)
     B{i} = T_xxyy(x{i}, x{i});
     
     b{i} = reshape(B{i}, [(N(i) * N(i)) , 1 ]);
-    
+       
     A_s{i} = sparse(A{i});
+    
 end
    
 t_direct_solution_full_matrix = 1:length(N);
@@ -74,8 +75,10 @@ end
 t_iterativ_solution_spars_matrix = 1:length(N);
 for i = 1:length(N)
     tic;
-        solution_GaussSeidel{i} =  GaussSeidel(A_s{i}, zeros(length(b{i}), 1 ) , b{i}, 40000, .0001 );
+        solution_GaussSeidel{i} =  GaussSeidel(  b{i}, N(i), N(i), zeros(length(b{i}), 1) , 40000, .0001 );
     t_iterativ_solution_spars_matrix(i) = toc;
+    
+    plotT(N(i), N(i), solution_GaussSeidel{i});
 end
 
 error_gaus = 1:length(N);
@@ -111,7 +114,7 @@ TestTable.addTable( [ t_iterativ_solution_spars_matrix ; number_of_Storage_spars
     'iterative solution with Gauss-Seidel' );
 
 % Define and add a new mode
-CoulmnsName = {'7' '15' '31' '63' '128'};
+CoulmnsName = {'7' '15' '31' '63' '127'};
 RowsName = {'error', 'error red.'};
 SecondMode = TableMode( CoulmnsName, RowsName  );
 TestTable.addMode( SecondMode );

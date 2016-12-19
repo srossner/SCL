@@ -1,5 +1,8 @@
-function Sol = GaussSeidel( A , InitialGuess, b , maxIterations , accuracy)
+function Sol = GaussSeidel(  b , N_x, N_y, InitialGuess, maxIterations , accuracy)
 %This function solves the system of linear equation Ax=b using Gauss Seidel
+
+    A = createM(N_x, N_y);
+
 
     Sol = InitialGuess;
     N = size(A,1);
@@ -16,6 +19,6 @@ function Sol = GaussSeidel( A , InitialGuess, b , maxIterations , accuracy)
         
         error = norm(A*Sol -b);
         
-    end
+    end   
     
 end
