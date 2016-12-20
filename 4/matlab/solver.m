@@ -10,13 +10,14 @@ Sol = InitialGuess;
 R = 1;
 iteration = 0;
 while R>.0001 && iteration <= maxIterations
-    residue =0;
+    cumsum =0;
     for i=1:Nx*Ny
         [north, south, east, west, centre, Vector] = coefficient( Nx, Ny, p , i , Sol , Tboundary );
         Sol(i) = ( Vector - ( north + south + east + west ))/ centre;
         residue = Vector - Sol(i);
+        cumsum = cumsum + residue^2;
     end
     iteration = iteration + 1;
-    R = sqrt((residue^2)/(Nx*Ny));
+    R = sqrt(cumsum/(Nx*Ny));
 end
 end
