@@ -5,7 +5,6 @@ function Sol = GaussSeidel( A , InitialGuess, b , maxIterations )
     N = size(A,1);
     error = 1;
     iteration = 0;
-    
     while  error>=.0001 && iteration <= maxIterations
         
         for i=1:N
@@ -15,7 +14,10 @@ function Sol = GaussSeidel( A , InitialGuess, b , maxIterations )
         iteration = iteration + 1;
         
         error = norm(A*Sol -b);
-        
-    end
-    
+              
+    end  
+    iteration
+     if(iteration >= maxIterations)
+            disp('Wrong');
+     end
 end
