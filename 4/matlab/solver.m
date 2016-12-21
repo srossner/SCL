@@ -1,4 +1,4 @@
-function Sol = solver( Nx, Ny, p , InitialGuess , maxIterations , Tboundary )
+function Sol = solver( Nx, Ny, p , InitialGuess , maxIterations , Tboundary , accuracy)
 %This function computes the coefficients of the equation at each grid point
 %and solves the system of linear equation using Gauss Seidel Method.
 %Parameter are Nx=No. of nodes in x direction , Ny=No. of nodes in y
@@ -9,7 +9,7 @@ function Sol = solver( Nx, Ny, p , InitialGuess , maxIterations , Tboundary )
 Sol = InitialGuess;
 R = 1;
 iteration = 0;
-while R>.0001 && iteration <= maxIterations
+while R>accuracy && iteration <= maxIterations
     cumsum =0;
     for i=1:Nx*Ny
         [north, south, east, west, centre, Vector] = coefficient( Nx, Ny, p , i , Sol , Tboundary );
