@@ -3,12 +3,11 @@ function Sol = GaussSeidel(  b , N_x, N_y, InitialGuess, maxIterations , accurac
 
     A = createM(N_x, N_y);
 
-
     Sol = InitialGuess;
     N = size(A,1);
     error = 1;
     iteration = 0;
-    
+
     while  error>=accuracy && iteration <= maxIterations
         
         for i=1:N
@@ -18,7 +17,11 @@ function Sol = GaussSeidel(  b , N_x, N_y, InitialGuess, maxIterations , accurac
         iteration = iteration + 1;
         
         error = norm(A*Sol -b);
-        
-    end   
-    
+  
+    end  
+    iteration
+     if(iteration >= maxIterations)
+            disp('Wrong');
+     end
+
 end
