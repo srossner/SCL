@@ -29,7 +29,7 @@ sol2 = M\x3;
 
 plotT( N_X , N_Y, sol2, 'Worksheet 4');
 
-N = [ 7 15 31 63];% 127];
+N = [ 7 15 31 63 127];
 
 for i = 1:length(N)
     
@@ -72,35 +72,35 @@ for i = 1:length(N)
     number_of_Storage_spars(i) = nnz(A_s{i});
 end
 
-% t_iterativ_solution_spars_matrix = 1:length(N);
-% for i = 1:length(N)
-%     tic;
-%         solution_GaussSeidel_spars_matrix{i} =  GaussSeidel(  b{i}, N(i), N(i), zeros(length(b{i}), 1) , 40000, .0001 );
-%     t_iterativ_solution_spars_matrix(i) = toc;
-%     
-%     plotT(N(i), N(i), solution_GaussSeidel_spars_matrix{i}, 'Worksheet 4');
-% end
+t_iterativ_solution_spars_matrix = 1:length(N);
+for i = 1:length(N)
+     tic;
+        solution_GaussSeidel_spars_matrix{i} =  GaussSeidel(  b{i}, N(i), N(i), zeros(length(b{i}), 1) , 40000, .0001 );
+     t_iterativ_solution_spars_matrix(i) = toc;
+     
+     plotT(N(i), N(i), solution_GaussSeidel_spars_matrix{i}, 'Worksheet 4');
+end
 
 t_iterativ_solution_solver = 1:length(N);
 for i = 1:length(N)
     tic;                          %solver(   Nx,   Ny,   p ,           nitialGuess , maxIterations , Tboundary , accuracy)
-        solution_GaussSeidel_solver{i} =  solver( N(i), N(i), @T_xxyy, zeros(length(b{i}), 1), 40000         ,   0        ,  0.0001 );
+        solution_GaussSeidel_solver{i} =  solver( N(i), N(i), @T_xxyy, zeros(length(b{i}), 1), 40000         ,   0        ,  0.0001 , A_s{i}, b{i});
     t_iterativ_solution_solver(i) = toc;
     
     plotT(N(i), N(i), solution_GaussSeidel_solver{i}, 'Worksheet 4');
 end
 
 
-% error_gaus_spars_matrix = 1:length(N);
-% error_gaus_red_spars_matrix = 1:length(N);
-% for i = 1:length(N)
-%     
-%      error_gaus_spars_matrix(i) =   approximationError( N(i), N(i),  solution_GaussSeidel_spars_matrix{i} , solution_spars{i} );
-%      if i > 1
-%          error_gaus_red_spars_matrix(i) = error_gaus_spars_matrix(i-1) / error_gaus_spars_matrix(i);
-%      end
-% 
-% end
+error_gaus_spars_matrix = 1:length(N);
+error_gaus_red_spars_matrix = 1:length(N);
+for i = 1:length(N)
+     
+      error_gaus_spars_matrix(i) =   approximationError( N(i), N(i),  solution_GaussSeidel_spars_matrix{i} , solution_spars{i} );
+      if i > 1
+          error_gaus_red_spars_matrix(i) = error_gaus_spars_matrix(i-1) / error_gaus_spars_matrix(i);
+     end
+ 
+end
 
 error_gaus_solver = 1:length(N);
 error_gaus_red_solver = 1:length(N);
@@ -130,10 +130,10 @@ TestTable.addTable( [ t_direct_solution_full_matrix    ; number_of_storage_Full_
     'direct solution with full matrix' );
 TestTable.addTable( [ t_direct_solution_spars_matrix   ; number_of_Storage_spars       	] ,...
     'direct solution with sparse matrix' );
-% TestTable.addTable( [ t_iterativ_solution_spars_matrix ; number_of_Storage_spars        ] ,...
-%     'iterative solution with Gauss-Seidel  spars matrix' );
-TestTable.addTable( [ t_iterativ_solution_solver ; number_of_Storage_spars        ] ,...
-    'iterative solution with Gauss-Seidel solver' );
+TestTable.addTable( [ t_iterativ_solution_spars_matrix ; number_of_Storage_spars        ] ,...
+     'iterative solution with Gauss-Seidel  spars matrix' );
+TestTable.addTable( [ t_iterativ_solution_solver ; [ 6 6 6 6 6]        ] ,...
+    'iterative solution with Gauss-Seidel no storing of matrix' );
 
 
 
@@ -143,8 +143,8 @@ RowsName = {'error', 'error red.'};
 SecondMode = TableMode( CoulmnsName, RowsName  );
 TestTable.addMode( SecondMode );
 
-% TestTable.addTable( [ error_gaus_spars_matrix  ; error_gaus_red_spars_matrix ] , ' ' );
-TestTable.addTable( [ error_gaus_solver  ; error_gaus_red_solver ] , ' ' );
+TestTable.addTable( [ error_gaus_spars_matrix  ; error_gaus_red_spars_matrix ] , 'iterative solution with Gauss-Seidel  spars matrix' );
+TestTable.addTable( [ error_gaus_solver  ; error_gaus_red_solver ] , 'iterative solution with Gauss-Seidel no storing of matrix' );
 
 
 
