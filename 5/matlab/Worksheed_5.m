@@ -19,18 +19,17 @@ for counter_t = 1:4
     for counter_N = 1:length(N)
         for counter_dt = 1:length(dt_1)
 
-            sol_0 = ones(N(counter_N), N(counter_N));
-            x_ = 0:1/(N(counter_N)-1):1;
-            y_ = 0:1/(N(counter_N)-1):1;
-
-            for i = 1:N(counter_N)
+            sol_0 = ones(N(counter_N)+1, N(counter_N)+1);
+            x_ = 0:1/(N(counter_N)):1;
+            y_ = 0:1/(N(counter_N)):1;
+            
+            for i = 1:N(counter_N)+1
                 sol_0(i,1) = 0;
-                sol_0(i,N(counter_N)) = 0;
+                sol_0(i,N(counter_N)+1) = 0;
                 sol_0(1,i) = 0;
-                sol_0(N(counter_N),i) = 0;
+                sol_0(N(counter_N)+1,i) = 0;
             end
 
-            
             for time = 1/dt_1(counter_dt):1/dt_1(counter_dt):counter_t/8
                 sol_1 = explicitEuler_step( N(counter_N), N(counter_N), 1/dt_1(counter_dt), sol_0 );
                 sol_0 = sol_1;
@@ -52,6 +51,8 @@ end
 % dt = 1/64 for Implicid 
 counter_dt = 1;
 
+accuracy = 10^-6;
+
 my_Plot(counter_t + 4) = figure;
 
 set(my_Plot(counter_t + 4),'name',  sprintf( '%s: dt = 1/%d', 'Plots for implicit', dt_1(counter_dt) ),...
@@ -64,19 +65,19 @@ for counter_t = 1:4
     for counter_N = 1:length(N)
         
 
-        sol_0 = ones(N(counter_N), N(counter_N));
-        x_ = 0:1/(N(counter_N)-1):1;
-        y_ = 0:1/(N(counter_N)-1):1;
+        sol_0 = ones(N(counter_N)+1, N(counter_N)+1);
+        x_ = 0:1/(N(counter_N)):1;
+        y_ = 0:1/(N(counter_N)):1;
 
-        for i = 1:N(counter_N)
+        for i = 1:N(counter_N)+1
             sol_0(i,1) = 0;
-            sol_0(i,N(counter_N)) = 0;
+            sol_0(i,N(counter_N)+1) = 0;
             sol_0(1,i) = 0;
-            sol_0(N(counter_N),i) = 0;
+            sol_0(N(counter_N)+1,i) = 0;
         end
 
         for time = 1/dt_1(counter_dt):1/dt_1(counter_dt):counter_t/8
-            sol_1 = implicitEuler_step( N(counter_N), N(counter_N), 1/dt_1(counter_dt), sol_0 );
+            sol_1 = implicitEuler_step( N(counter_N), N(counter_N), 1/dt_1(counter_dt), sol_0 , accuracy);
             sol_0 = sol_1;
         end
 
